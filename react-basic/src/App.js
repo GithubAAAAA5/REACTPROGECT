@@ -10,6 +10,7 @@ import EventComponent from './Event.js/EventComponent';
 import InputSample from './Event.js/InputSample';
 import EventComponent2 from './Event.js/EventComponent2';
 import UserList from './Array/UserList';
+import ArrayKey from './Array/ArrayKey';
 
 function App() {
 
@@ -24,19 +25,24 @@ function App() {
 
   return (
     <>
+    
     {/* 2nd Day :useState 테스트 */}
     {/* <StateComponent />
-    <MyComponent2 name = {'홍길동'} age = {20} />*/}
-    
+    <MyComponent2 name = {'홍길동'} age = {20} />
     <Counter /> 
+    <hr /> */}
 
     {/* 2nd Day : event*/}
     {/* <EventComponent />
     <EventComponent2 />
-    <InputSample /> */}
-  
+    <InputSample />
+    <hr /> */}
+    
+
     {/* 2nd Day : 컴포넌트 배열 */}
     <UserList />
+    <hr />
+    <ArrayKey />
 
     {/* 1st Day */}
     {/* <Wrapper>
