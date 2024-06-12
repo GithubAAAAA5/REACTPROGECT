@@ -1,4 +1,5 @@
 import React from "react";
+import App from "../App";
 
 // User 컴포넌트
 function User({user}) {
@@ -10,24 +11,7 @@ function User({user}) {
 }
 
 
-function UserList() {
-    const users = [
-        {
-            id: 1,
-            username: 'HongGildong',
-            email: 'Hong@naver.com'
-        },
-        {
-            id: 2,
-            username: 'LeeSoonsin',
-            email: 'Lee@naver.com'
-        },
-        {
-            id: 3,
-            username: 'RyuGwansoon',
-            email: 'Ryu@naver.com'
-        },
-    ];
+function UserList({users}) {
 
     // return (
     //     <div>
@@ -46,6 +30,7 @@ function UserList() {
     return (
         <div>
             {/* array.map() 함수를 이용한 컴포넌트 반복 */}
+            
             {/* <User user={users[2]} />
             <User user={users[1]} />
             <User user={users[0]} /> */}
