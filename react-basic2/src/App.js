@@ -1,4 +1,4 @@
-import { useCallback, useReducer, useRef } from 'react';
+import { useCallback, useMemo, useReducer, useRef } from 'react';
 import './App.css';
 import Counter from './Hooks/Counter';
 import CreateUser from './Hooks/CreateUser';
@@ -23,13 +23,13 @@ const initialState = {
       active: true
     },
     {
-      id: 1,
+      id: 2,
       username: 'KIM',
       email: 'KIM@naver.com',
       active: false
     },
     {
-      id: 1,
+      id: 3,
       username: 'PARK',
       email: 'PARK@naver.com',
       active: false
@@ -57,10 +57,19 @@ const initialState = {
         };
 
       case 'TOGGLE_USER':
-        return null;
+        return {
+          ...state,
+          users: state.users.map(user =>
+            user.id === action.id ? 
+            { ...user, active: !user.active} :user
+          )
+        };
         
       case 'REMOVE_USER':
-        return null;  
+        return {
+          ...state,
+          users: state.users.filter(user => user.id !== action.id)
+        };  
 
 
       default:
@@ -92,11 +101,27 @@ const initialState = {
         user: {
           id: nextId.current,
           username,
-          email
+          email,
         }
       });
       nextId.current += 1;
-    }, [username, email])
+    }, [username, email]);
+
+    const onToggle = useCallback(id => {
+      dispatch({
+        type: 'TOGGLE_USER',
+        id
+      });
+    }, []);
+
+    const onRemove = useCallback(id => {
+      dispatch({
+        type: 'REMOVE_USER',
+        id
+      });
+    }, []);
+
+    const count = useMemo(() => countActiveUsers(users), [users]);
 
   return (
     <>
@@ -107,8 +132,8 @@ const initialState = {
         onChange={onChange}
         onCreate={onCreate}
       />
-      <UserList users={users} />
-      <div>활성 사용자 수 : </div>
+      <UserList users={users} onRemove={onRemove} onToggle={onToggle} />
+      <div>활성 사용자 수 : {count} </div>
     </> 
   );
 }
