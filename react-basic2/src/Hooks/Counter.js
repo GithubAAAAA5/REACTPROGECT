@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useReducer, useState } from 'react';
 
 // reducer 함수...... 업데이트 정보를 통해서 새로운 상태를 만드는 로직
 function reducer(state, action) {
@@ -9,19 +9,23 @@ function reducer(state, action) {
             return state - 1;
         default:
             return state;
-    }
-    
-};
+    } 
+}
 
 function Counter() {
-    const [number, setNumber] = useState(0);
+    // const [number, setNumber] = useState(0);
+    // reducer 적용
+    const [number, dispatch] = useReducer(reducer, 100) 
+
 
     const onIncrease = () => {
-        setNumber(prevNumber => prevNumber + 1);
+        // setNumber(prevNumber => prevNumber + 1);
+        dispatch({type: 'INCREMENT'});
     };
 
     const onDecrease = () => {
-        setNumber(prevNumber => prevNumber -1);
+        // setNumber(prevNumber => prevNumber -1);
+        dispatch({type: 'DECREMENT'});
     };
 
     return (
