@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 import './App.css';
-import React, { useRef, Fragment, useState } from 'react';
+import React, { useRef, Fragment, useState, useMemo, useCallback } from 'react';
 import Wrapper from './Wrapper';
 import PropTypes from 'prop-types'; // prop 타입 검증을 모듈.
 import StateComponent from './useState/StateTest';
@@ -15,17 +15,25 @@ import InputSample2 from './Array/InputSample2';
 import CreateUser from './Array/CreateUser';
 import HookEffect from './Hooks/HookEffect';
 import LoopEffect from './Hooks/LoopEffect';
+import HookRef from './Hooks/HookRef';
+
+
+ // active가 활성화된 사용자를 세는 함수.
+ function countActiveUsers(users) {
+  console.log('활성 사용자 수를 세는 중.....');
+  return users.filter(user => user.active).length;
+}
 
 function App() {
 
   const name = 'React';
 
-  const style = {
-    backgroundColor: 'red', // 카멜 표기법
-    color: 'white',
-    fontSize: 24,
-    padding: '1rem'
-  }
+  // const style = {
+  //   backgroundColor: 'red', // 카멜 표기법
+  //   color: 'white',
+  //   fontSize: 24,
+  //   padding: '1rem'
+  // }
 
 
   // users 배열 객체를 userState 로 변경 추가 가능한 배열 객체로 
@@ -73,7 +81,8 @@ function App() {
   // scroll 위치
 
   const nextId = useRef(4);
-  const onCreate = () => {
+  // useCallback() 을 이용한 함수 재사용 처리하기
+  const onCreate = useCallback(() => {
     // 나중에 구현 할 배열에 항목 추가 로직
     const user = {
       id: nextId.current,   // 현재 useRef로 설정된 값을 호출한다.
@@ -83,6 +92,7 @@ function App() {
 
     // 추가
     setUsers([...users, user]);
+    // setUsers(users.concat(user)); 를 사용해야한다.
 
     // 입력값 정리
     setInputs({
@@ -91,22 +101,37 @@ function App() {
     });
 
     nextId.current += 1; // onCreate 가 동작하면, useRef에 현재값에 +1 을 처리한다.
-  }
+  }, [users, username, email]); // 함수 안에서 사용하는 상태(state), props를 지녀야한다.
 
+  // useCallback() 을 이용한 함수 재사용 처리하기
   // 사용자 삭제
-  const onRemove = id => {
+  const onRemove = useCallback(id => {
     // user.id 가 파라미터로 일치하지 않는 원소만 추출해서 새로운 배열을 만든다.
     // user.id 가 파라미터로 전달된 id인 것만 제거한 새로운 배열을 만든다.
     setUsers(users.filter(user => user.id !== id));
-  };
+  }, [users]);
 
-  //
-  const onToggle = (id) => {
+  // useCallback() 을 이용한 함수 재사용 처리하기
+  const onToggle = useCallback(id => {
     setUsers(
-      users.map(user => user.id === id ? {...user, active: !user.active} : user
+      users.map(user => 
+        user.id === id ? {...user, active: !user.active} : user
       )
     );
-  };
+  }, [users]);
+ 
+  // useMemo --- input 으로 생기는 리렌더링에는 실행하지 않는다.
+  // const count = countActiveUsers(users); 인 경우에는 리렌더링 시에
+  // 지속적으로 사용되며 메모리를 낭비한다.
+  // useMemo 를 사용하면 users 에 변화가 있는 경우에만 동작을 한다.
+
+ 
+
+  // const count = countActiveUsers(users);
+
+  const count = useMemo(() => countActiveUsers(users),[users]);
+  // useMemo() 의 첫번째 파라미터는 어떻게 연산할지 정의하는 함수이다.
+  // useMemo() 의 두번째 파라미터는 deps 배열(의존성 배열)을 정의한다.
 
   return (
     <>
@@ -130,13 +155,16 @@ function App() {
       onCreate={onCreate}  
     />
     <hr />
-    <UserList users={users} onRemove={onRemove} onToggle={onToggle}/>
-      {/* 리스트로 보내줘야하기때문에 onRemove 설정 */}
-
-      {/* 3rd Day : useEffect */}
-      <HookEffect />
-      <LoopEffect />
-
+    <UserList users={users} onRemove={onRemove} onToggle={onToggle}/>  {/* 리스트로 보내줘야하기때문에 onRemove 설정 */}
+    <div>활성 사용자 수 : {count} </div>
+    
+    <hr />
+    {/* 3rd Day : useEffect */}
+    {/* <HookEffect /> */}
+    {/* <LoopEffect /> */}
+    <hr />
+    {/* 3rd Day : useRef */}
+    <HookRef />
 
     {/* 2nd Day : 컴포넌트 배열 */}
 
