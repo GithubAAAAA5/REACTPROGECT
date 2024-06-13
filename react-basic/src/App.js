@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 import './App.css';
-import React, { useRef, Fragment } from 'react';
+import React, { useRef, Fragment, useState } from 'react';
 import Wrapper from './Wrapper';
 import PropTypes from 'prop-types'; // prop 타입 검증을 모듈.
 import StateComponent from './useState/StateTest';
@@ -25,23 +25,43 @@ function App() {
     padding: '1rem'
   }
 
-  const users = [
+
+  // users 배열 객체를 userState 로 변경 추가 가능한 배열 객체로 
+  const [users, setUsers] = useState([
     {
       id: 1,
       username: 'HongGildong',
-      email: 'Hong@naver.com'
+      email: 'Hong@naver.com',
+      active: true
     },
     {
       id: 2,
       username: 'LeeSoonsin',
-      email: 'Lee@naver.com'
+      email: 'Lee@naver.com',
+      active: false
     },
     {
       id: 3,
       username: 'RyuGwansoon',
-      email: 'Ryu@naver.com'
+      email: 'Ryu@naver.com',
+      active: false
     },
-  ];
+  ]);
+
+  // useSTate
+  const [inputs, setInputs] = useState({
+    username:'',
+    email:''
+  });
+  const {username, email} = inputs;
+
+  const onChange = e => {
+    const{name, value} = e.target;
+    setInputs({
+      ...inputs,
+      [name]: value
+    });
+  }
 
   // useRef 를 이용한 컴포넌트에서 사용할 변수 지정
   // useRef 로 관리하는 변수는 값이 바뀐다고 해서 컴포넌트가 리렌더링 되지 않음./ 유지가 됨
@@ -53,8 +73,38 @@ function App() {
   const nextId = useRef(4);
   const onCreate = () => {
     // 나중에 구현 할 배열에 항목 추가 로직
+    const user = {
+      id: nextId.current,   // 현재 useRef로 설정된 값을 호출한다.
+      username,
+      email
+    };
+
+    // 추가
+    setUsers([...users, user]);
+
+    // 입력값 정리
+    setInputs({
+      username:'',
+      email:''
+    });
+
     nextId.current += 1; // onCreate 가 동작하면, useRef에 현재값에 +1 을 처리한다.
   }
+
+  // 사용자 삭제
+  const onRemove = id => {
+    // user.id 가 파라미터로 일치하지 않는 원소만 추출해서 새로운 배열을 만든다.
+    // user.id 가 파라미터로 전달된 id인 것만 제거한 새로운 배열을 만든다.
+    setUsers(users.filter(user => user.id !== id));
+  };
+
+  //
+  const onToggle = (id) => {
+    setUsers(
+      users.map(user => user.id === id ? {...user, active: !user.active} : user
+      )
+    );
+  };
 
   return (
     <>
@@ -71,14 +121,25 @@ function App() {
     <InputSample />
     <hr /> */}
     
-    <CreateUser />
+    <CreateUser 
+      username={username}
+      email={email}
+      onChange={onChange}
+      onCreate={onCreate}  
+    />
     <hr />
+    <UserList users={users} onRemove={onRemove} onToggle={onToggle}/>
+      {/* 리스트로 보내줘야하기때문에 onRemove 설정 */}
+
     {/* 2nd Day : 컴포넌트 배열 */}
+
     {/* <UserList /> 
     기존 userList 에서 불러오던 유저정보를 app으로 이동한후
      userList에서는 users오류에대해 userList에 users를 넣어주고 
-     app에서는 UserList 에 users={users} 를 수정한다.*/}
-    <UserList users={users} /> {/* 등록 사용자 출력 */}
+     app에서는 UserList 에 users={users} 를 수정한다.
+
+    <UserList users={users} />  등록 사용자 출력 */}
+
     <hr />
     {/* <ArrayKey />
     <hr />
