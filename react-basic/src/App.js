@@ -13,6 +13,8 @@ import UserList from './Array/UserList';
 import ArrayKey from './Array/ArrayKey';
 import InputSample2 from './Array/InputSample2';
 import CreateUser from './Array/CreateUser';
+import HookEffect from './Hooks/HookEffect';
+import LoopEffect from './Hooks/LoopEffect';
 
 function App() {
 
@@ -130,6 +132,11 @@ function App() {
     <hr />
     <UserList users={users} onRemove={onRemove} onToggle={onToggle}/>
       {/* 리스트로 보내줘야하기때문에 onRemove 설정 */}
+
+      {/* 3rd Day : useEffect */}
+      <HookEffect />
+      <LoopEffect />
+
 
     {/* 2nd Day : 컴포넌트 배열 */}
 
