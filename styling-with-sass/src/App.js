@@ -47,7 +47,7 @@ function App() {
       {/* CSS Module 테스트 */}
       {/* <Box /> */}
       {/* <Box className="test"/> */}
-      <CheckBox onChange={onChange} checked={check}>
+      <CheckBox onChange={onChange} checked={check} onClick={() => alert('낙장불입')}>
         다음 약관에 모두 동의
       </CheckBox>
       <p>
