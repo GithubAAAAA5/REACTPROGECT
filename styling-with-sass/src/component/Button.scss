@@ -1,4 +1,29 @@
 $blue: #228be6;     // 주석 -> 변수 선언 부분
+$gray: #495057;
+$pink: #f06595;
+
+// Sass에서 가장 많이 사용되는 기능(@minin). 마치 function 처럼 생김. 핵심은 간결하게 만드는것.
+@mixin button-color($color){
+    background: $color;
+
+    &:hover {
+        background: lighten($color: $color, $amount: 10%);
+    }
+
+    &:active {
+        background: darken($color: $color, $amount: 10%);
+    }
+    
+    &.outline {
+        color: $color;
+        background: none;
+        border: 1px solid $color;
+        &:hover {
+            background: $color;
+            color: white;
+        }
+    }
+}
 
 .Button {
     display: inline-flex;
@@ -38,18 +63,55 @@ $blue: #228be6;     // 주석 -> 변수 선언 부분
         font-size: 0.875rem;
     }
 
-    background: $blue;
+    
+    
     // 주석을 사용
-    &:hover {
-        background: lighten($color: $blue, $amount: 10%);
-        // lighten -> 좀 더 밝게 => 주석을 사용하며 기존 색상보다 10% 밝게 사용하겠다.
+    &.blue {
+        @include button-color($blue)
+        // background: $blue;
+        // &:hover {
+        //     background: lighten($color: $blue, $amount: 10%);
+        //     // lighten -> 좀 더 밝게 => 주석을 사용하며 기존 색상보다 10% 밝게 사용하겠다.
+        // }
+        // &:active {
+        //     background: darken($color: $blue, $amount: 10%);
+        // }
     }
-    &:active {
-        background: darken($color: $blue, $amount: 10%);
+
+    &.gray {
+        @include button-color($gray)
+        // background: $gray;
+        // &:hover {
+        //     background: lighten($color: $gray, $amount: 10%);
+        //     // lighten -> 좀 더 밝게 => 주석을 사용하며 기존 색상보다 10% 밝게 사용하겠다.
+        // }
+        // &:active {
+        //     background: darken($color: $gray, $amount: 10%);
+        // }
+    }
+
+    &.pink {
+        @include button-color($pink)
+        // background: $pink;
+        // &:hover {
+        //     background: lighten($color: $pink, $amount: 10%);
+        //     // lighten -> 좀 더 밝게 => 주석을 사용하며 기존 색상보다 10% 밝게 사용하겠다.
+        // }
+        // &:active {
+        //     background: darken($color: $pink, $amount: 10%);
+        // }
     }
 
     & + & {     // 두 개체가 만날때 마진값 1rem 을 주겠다.....
-        margin-left: 1rem;
+            margin-left: 1rem;
     }
 
+    &.fullWidth {
+        width: 100%;
+        justify-content: center;
+        & + & {
+            margin-left: 0;
+            margin-top: 1rem;
+        }
+    }
 }
