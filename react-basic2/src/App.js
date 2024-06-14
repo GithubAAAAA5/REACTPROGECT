@@ -4,9 +4,11 @@ import Counter from './Hooks/Counter';
 import CreateUser from './Hooks/CreateUser';
 import UserList from './Hooks/UserList';
 import useInputs from './Hooks/useInputs';
+/* 모듈 디자인 로드 */
+import styled from './css/App.module/css'
 
 function countActiveUsers(users) {
-  console.log('활성 사용자 수를 세는 중....');
+  console.log('활성 사용자 수를 세는 중....');  // css 모듈 디자인 
   return users.filter(user => user.active).length;
 }
 
@@ -145,6 +147,11 @@ const initialState = {
 
   return (
     <>
+      <section className={styled.app_wrap}>
+        <p class="title">CSS 모듈 디자인!</p>
+      </section>
+      <br />
+      <hr />
       {/* <Counter /> */}
       <CreateUser 
         username={username} 
