@@ -4,6 +4,7 @@ import Circle from './styled-components/sample';
 
 function App() {
   return (
+    <>
     <div className="App">
       <Circle color='red'/>
       <Circle color='orange'/>
@@ -13,6 +14,8 @@ function App() {
       <Circle color='darkblue'/>
       <Circle color='black'/>
     </div>
+    <div></div>
+    </>
   );
 }
 
