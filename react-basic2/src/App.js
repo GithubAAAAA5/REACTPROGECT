@@ -3,6 +3,7 @@ import './App.css';
 import Counter from './Hooks/Counter';
 import CreateUser from './Hooks/CreateUser';
 import UserList from './Hooks/UserList';
+import useInputs from './Hooks/useInputs';
 
 function countActiveUsers(users) {
   console.log('활성 사용자 수를 세는 중....');
@@ -11,10 +12,11 @@ function countActiveUsers(users) {
 
 const initialState = {
   // inputs : CreateUser에서 inputs 작업시 사용부분
-  inputs: {
-    username: '',
-    email: ''
-  },
+  // inputs: {        // custom hook 작업을 제외.
+  //   username: '',
+  //   email: ''
+  // },
+
   users: [
     {
       id: 1,
@@ -41,14 +43,14 @@ const initialState = {
   function reducer(state, action) {
     // action 에 따른 state 값 변화 로직 구현
     switch(action.type) {
-      case 'CHANGE_INPUT':
-        return {
-          ...state,
-          inputs: {
-            ...state.inputs,
-            [action.name]: action.value
-          }
-        };
+      // case 'CHANGE_INPUT':     // custom hook 사용시 제외. 왜? useInputs 훅에서 구현되어있기 때문
+      //   return {
+      //     ...state,
+      //     inputs: {
+      //       ...state.inputs,
+      //       [action.name]: action.value
+      //     }
+      //   };
 
       case 'CREATE_USER':
         return {
@@ -82,18 +84,26 @@ const initialState = {
 
     const [state, dispatch] = useReducer(reducer, initialState);
     const {users} = state;
-    const {username, email} = state.inputs;
+
+    // custom hooks 구현으로 다음을 바꿔서 사용.
+    // const {username, email} = state.inputs;
+    const [{username, email}, onChange, reset] = useInputs({
+      username: '',
+      email: ''
+    });
+
 
     const nextId = useRef(4);
 
-    const onChange = useCallback(e => {
-      const {name, value} = e.target;
-      dispatch({
-        type: 'CHANGE_INPUT',
-        name,
-        value
-      })
-    }, []);
+    // onChange 는 userinput 에 구현되어있어 주석처리한다.
+    // const onChange = useCallback(e => {
+    //   const {name, value} = e.target;
+    //   dispatch({
+    //     type: 'CHANGE_INPUT',
+    //     name,
+    //     value
+    //   })
+    // }, []);
 
     const onCreate = useCallback(() => {
       dispatch({
@@ -104,15 +114,25 @@ const initialState = {
           email,
         }
       });
+      reset();
       nextId.current += 1;
-    }, [username, email]);
+    }, [username, email, reset]);
 
+    // 이 코드는 onToggle이라는 함수를 생성합니다. 
+    // 이 함수는 특정 id 값을 받아서 dispatch 함수를 호출하여 
+    // type이 'TOGGLE_USER'인 액션을 디스패치(dispatch)합니다.
     const onToggle = useCallback(id => {
       dispatch({
         type: 'TOGGLE_USER',
         id
       });
     }, []);
+    // 의존성 배열: useCallback은 두 번째 인수로 의존성 배열을 받습니다. 
+    // 이 배열은 함수가 다시 생성될지 여부를 결정하는데, 
+    // 배열에 포함된 값들이 변경될 때만 함수가 새로 생성됩니다.
+    // 빈 배열 []: 빈 배열이 전달되면, onToggle 함수는 컴포넌트가 마운트될 때 한 번만 생성되고, 
+    // 이후에는 절대 변경되지 않습니다. 이는 onToggle 함수가 메모이제이션되어서, 
+    // 컴포넌트가 다시 렌더링되더라도 항상 동일한 함수 참조를 사용한다는 의미입니다.
 
     const onRemove = useCallback(id => {
       dispatch({
