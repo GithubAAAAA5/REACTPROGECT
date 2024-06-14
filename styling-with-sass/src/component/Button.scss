@@ -1,0 +1,55 @@
+$blue: #228be6;     // 주석 -> 변수 선언 부분
+
+.Button {
+    display: inline-flex;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    outline: none;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+
+    // 사이즈 관리 : large, medium, small
+
+    &.large {
+        height: 3rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        // padding 안쪽 여백
+        font-size: 1.25rem;
+    }
+
+    
+    &.medium {
+        height: 2.25rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        // padding 안쪽 여백
+        font-size: 1rem;
+    }
+
+        
+    &.small {
+        height: 1.75rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        // padding 안쪽 여백
+        font-size: 0.875rem;
+    }
+
+    background: $blue;
+    // 주석을 사용
+    &:hover {
+        background: lighten($color: $blue, $amount: 10%);
+        // lighten -> 좀 더 밝게 => 주석을 사용하며 기존 색상보다 10% 밝게 사용하겠다.
+    }
+    &:active {
+        background: darken($color: $blue, $amount: 10%);
+    }
+
+    & + & {     // 두 개체가 만날때 마진값 1rem 을 주겠다.....
+        margin-left: 1rem;
+    }
+
+}
