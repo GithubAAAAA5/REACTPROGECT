@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import Button from "./styled-components/Button";
 
 const fadeIn = keyframes`
@@ -27,16 +27,16 @@ const slideUp = keyframes`
     to {
         transform; translateY(0px);
     }
-`
+`;
 
 const slideDown = keyframes`
     from {
         transform: translateY(0px);
     }
     to {
-        transform; translateY(200px);
+        transform: translateY(-200px);
     }
-`
+`;
 
 const DarkBackground = styled.div`
     position: fixed;
@@ -54,7 +54,15 @@ const DarkBackground = styled.div`
     animation-timing-function: ease-out;
     animation-name: ${fadeIn};
     animation-fill-mode: forwards;
-`;
+
+    /* props 에 사라지는 옵션 disapper 확인 */
+    ${props =>
+        props.disappear &&
+        css`
+            animation-name: ${fadeOut};
+        `
+    }
+    `;
 
 const DialogBlock = styled.div`
     width: 320px;
@@ -73,6 +81,14 @@ const DialogBlock = styled.div`
     animation-timing-function: ease-out;
     animation-name: ${slideUp};
     animation-fill-mode: forwards;
+
+    /* props 에 사라지는 옵션 disapper 확인 */
+    ${props =>
+        props.disappear &&
+        css`
+            animation-name: ${slideDown};
+        `
+    }
 `;
 
 const ButtonGroup = styled.div`
@@ -110,11 +126,11 @@ function Dialog({
         setLocalVisible(visible);
     }, [localVisible, visible]);
 
-    if (!visible) return null;  // false일 때 실행하도록 하는 문구
+    if (!animate && !localVisible) return null;  // false일 때 실행하도록 하는 문구
 
     return(
-        <DarkBackground>
-            <DialogBlock>
+        <DarkBackground disappear={!visible}>
+            <DialogBlock disappear={!visible}>
                 <h3>{title}</h3>
                 <p>{children}</p>
                 <ButtonGroup>

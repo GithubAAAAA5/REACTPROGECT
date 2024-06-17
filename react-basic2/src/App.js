@@ -81,6 +81,7 @@ const initialState = {
     }
   }
 
+  // UserDispatch 라는 이름으로 Context 를 내보낸다.
 
   function App() {
 
