@@ -95,9 +95,9 @@ function App() {
         </ButtonGroup>
 
         <ButtonGroup>
-        <Button fullwidth>Button</Button>
-        <Button color='gray' fullwidth>Button</Button>
-        <Button color='pink' fullwidth>Button</Button>
+        <Button fullWidth>Button</Button>
+        <Button color='gray' fullWidth>취소</Button>
+        <Button color='pink' fullWidth onClick={onClick}>삭제</Button>
         </ButtonGroup>
 
       </AppBlock>
@@ -106,7 +106,7 @@ function App() {
         confirmText='삭제'
         cancelText='취소'
         onConfirm={onConfirm}
-        onCancle={onCancle}
+        onCancle={onCancel}
         visible={dialog}
       >
         데이터를 정말로 삭제하시겠습니까?

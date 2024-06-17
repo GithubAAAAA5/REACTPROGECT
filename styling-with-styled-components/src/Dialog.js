@@ -1,6 +1,42 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useEffect, useState } from "react";
+import styled, { keyframes } from "styled-components";
 import Button from "./styled-components/Button";
+
+const fadeIn = keyframes`
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+`;
+
+const fadeOut = keyframes`
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+`;
+
+const slideUp = keyframes`
+    from {
+        transform: translateY(200px);
+    }
+    to {
+        transform; translateY(0px);
+    }
+`
+
+const slideDown = keyframes`
+    from {
+        transform: translateY(0px);
+    }
+    to {
+        transform; translateY(200px);
+    }
+`
 
 const DarkBackground = styled.div`
     position: fixed;
@@ -13,6 +49,11 @@ const DarkBackground = styled.div`
     justify-content: center;
     background: rgba(0, 0, 0, 0);
     // r g b a 256 흰 0 검 a 투명도
+
+    animation-duration: 0.25s;
+    animation-timing-function: ease-out;
+    animation-name: ${fadeIn};
+    animation-fill-mode: forwards;
 `;
 
 const DialogBlock = styled.div`
@@ -27,6 +68,11 @@ const DialogBlock = styled.div`
     p {
         font-size: 1.125rem;
     }
+        
+    animation-duration: 0.5s;
+    animation-timing-function: ease-out;
+    animation-name: ${slideUp};
+    animation-fill-mode: forwards;
 `;
 
 const ButtonGroup = styled.div`
@@ -44,6 +90,25 @@ function Dialog({
     onCancle,
     visible
     }) {
+
+    // Dialog가 사라지는 효과를 구현하기
+    // Dialog 컴포넌트에서 2개의 로컬 상태를 관리해야함
+    // 1. 트랜지션 효과를 보여주고 있는 중이라는 상태 : animate
+    // 2. 컴포넌트가 사라지는 시점의 지연 : localVisible
+    // 3. useEffect() -> visible 값이 true 에서 false 로 바뀌는 시점을 감지.
+    //         animate 값을 true 로 변경한다. setTimeout 함수 사용. 250ms 이후 false처리.
+
+    const [animate, setAnimate] = useState(false);
+    const [localVisible, setLocalVisible] = useState(visible);
+
+    useEffect(() => {
+        // visible 값이 true -> false 가 되는 것을 감지
+        if (localVisible && !visible) { // 
+            setAnimate(true)
+            setTimeout(() => setAnimate(false), 500);
+        }
+        setLocalVisible(visible);
+    }, [localVisible, visible]);
 
     if (!visible) return null;  // false일 때 실행하도록 하는 문구
 
