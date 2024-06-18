@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useReducer, useRef } from 'react';
+import React, { useCallback, useMemo, useReducer, useRef } from 'react';
 import './App.css';
 import Counter from './Hooks/Counter';
 import CreateUser from './Hooks/CreateUser';
@@ -81,7 +81,10 @@ const initialState = {
     }
   }
 
+  // 24.06.17 
   // UserDispatch 라는 이름으로 Context 를 내보낸다.
+  export const UserDispatch = React.createContext(null);
+  // 내보낸 것을 사용하고 싶은 경우 .. import {UserDispatch} from './App';
 
   function App() {
 
@@ -121,15 +124,17 @@ const initialState = {
       nextId.current += 1;
     }, [username, email, reset]);
 
+    //24.06.17 ContextAPI 사용을 위해 주석처리...
+
     // 이 코드는 onToggle이라는 함수를 생성합니다. 
     // 이 함수는 특정 id 값을 받아서 dispatch 함수를 호출하여 
     // type이 'TOGGLE_USER'인 액션을 디스패치(dispatch)합니다.
-    const onToggle = useCallback(id => {
-      dispatch({
-        type: 'TOGGLE_USER',
-        id
-      });
-    }, []);
+    // const onToggle = useCallback(id => {
+    //   dispatch({
+    //     type: 'TOGGLE_USER',
+    //     id
+    //   });
+    // }, []);
     // 의존성 배열: useCallback은 두 번째 인수로 의존성 배열을 받습니다. 
     // 이 배열은 함수가 다시 생성될지 여부를 결정하는데, 
     // 배열에 포함된 값들이 변경될 때만 함수가 새로 생성됩니다.
@@ -137,22 +142,25 @@ const initialState = {
     // 이후에는 절대 변경되지 않습니다. 이는 onToggle 함수가 메모이제이션되어서, 
     // 컴포넌트가 다시 렌더링되더라도 항상 동일한 함수 참조를 사용한다는 의미입니다.
 
-    const onRemove = useCallback(id => {
-      dispatch({
-        type: 'REMOVE_USER',
-        id
-      });
-    }, []);
+    // const onRemove = useCallback(id => {
+    //   dispatch({
+    //     type: 'REMOVE_USER',
+    //     id
+    //   });
+    // }, []);
 
     const count = useMemo(() => countActiveUsers(users), [users]);
 
   return (
-    <>
-      <section className={styled.app_wrap}>
+    <UserDispatch.Provider value={dispatch}> 
+    {/* /* 24.06.17 ContextAPI 를 사용...
+     const [state, dispatch*] = useReducer(reducer, initialState); 에 dispatch를 의미한다.. */}
+     
+      {/* <section className={styled.app_wrap}>
         <p class="title">CSS 모듈 디자인!</p>
       </section>
       <br />
-      <hr />
+      <hr /> */}
       {/* <Counter /> */}
       <CreateUser 
         username={username} 
@@ -160,9 +168,10 @@ const initialState = {
         onChange={onChange}
         onCreate={onCreate}
       />
-      <UserList users={users} onRemove={onRemove} onToggle={onToggle} />
+      {/* 24.06.17 -> UserList 에 onRemove, onToggle 제거 */}
+      <UserList users={users}/>
       <div>활성 사용자 수 : {count} </div>
-    </> 
+    </UserDispatch.Provider> 
   );
 }
 
