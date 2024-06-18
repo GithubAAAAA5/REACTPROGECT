@@ -23,8 +23,9 @@ const TodoHeadBlock = styled.div`
 
     .tasks-left {
         color: #20c997;
-        font-size: 20px;
-
+        font-size: 18px;
+        margin-top: 40px;
+        font-weight: 500;
     }
 `;
 
