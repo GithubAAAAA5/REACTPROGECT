@@ -7,11 +7,14 @@ import Info from './components/Info';
 import Board from './components/Board';
 import BoardContent from './components/BoardContent';
 import Profiles from './components/Profiles';
+import MyPage from './components/MyPage';
 
 function App() {
   return (
-    <Routes>
-      <Route path='/' element={<Home />} />
+    <>    <Routes>
+      <Route path='/' Component={Home} />
+      <Route path='/mypage' element={<MyPage />} />
+
       <Route path='/user' element={<User />} />
       <Route path='/user/:username' Component={User} />
 
@@ -26,9 +29,11 @@ function App() {
       {/*<Route path='/profiles' element={<Profiles />} >
         <Route path=':username' element={<User />} />
       </Route>*/}
+
       <Route path='/profiles/*' element={<Profiles />} />
 
     </Routes>
+  </>
   );
 }
 

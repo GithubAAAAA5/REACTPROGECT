@@ -23,7 +23,7 @@ function Header() {
         <button onClick={goUser}>유저목록으로 이동</button>
         <button onClick={() => nav(1)}>Go Forward</button>
         </div>
-    );
+    )
 }
 
 export default Header;

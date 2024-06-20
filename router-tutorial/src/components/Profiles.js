@@ -1,11 +1,13 @@
 import React from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import User from "./User";
+import Header from "./Header";
 
 function Profiles() {
+    
     return (
         <div>
-            <header />
+            <Header />
             <hr />
             <h3>사용자 목록 :</h3>
             <ul>

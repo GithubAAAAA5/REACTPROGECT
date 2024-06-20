@@ -31,8 +31,15 @@ function Home() {
             <ul>
                 <li>
                     <Link to='/info/1'>1번 Info</Link>
+                </li>
+                <li>    
                     <Link to='/info/2'>2번 Info</Link>
+                </li>
+                <li>    
                     <Link to='/info/3'>3번 Info</Link>
+                </li>
+                <li>
+                    <Link to='/mypage'> 마이 페이지로 이동하기 </Link>
                 </li>
             </ul>
             <h2>홈 페이지</h2>
