@@ -63,3 +63,50 @@ const reactangle = new Reactangle(100, 200);
 
 console.log(circle.radius);         // radius 를 public 으로 접근 제한 설정
 // console.log(reactangle.width);      // with, height 는 private 으로 접근 제한 이라서 width 빨간줄
+
+// 클래스가 아닌 일반 객체를 interface 를 사용하여 타입 지정하기
+interface Person {
+    name : string;
+    age? : number;      // 물음표는 설정해도 되고 안해도 되는 값을 의미한다.
+}
+
+// interface Developer {
+//     name : string,
+//     age?: number;
+//     skills: string[];
+// }
+// 상속 처리하기
+interface Developer extends Person {
+    skills: string[];
+}
+
+const person: Person = {
+    name: '홍길동',
+    age: 100
+}
+
+const expert: Developer = {
+    name: '빌게이츠',
+    skills: ['C','C++', 'React']
+};
+
+const people: Person[] = [person, expert];
+
+// Type Alias
+// type 은 특정 타입에 별칭을 붙이는 용도로, 이를 사용하여 객체를 위한 타입을
+// 설정 할 수 있고, 배열 또는 그 어떤 타입이든 별칭을 지을 수 있다.
+
+type Developer2 = Person & {    // & 를 사용해서 두개 이상의 타입을 합한다.
+    skills: string[];
+}
+
+const expert2 : Developer2 = {
+    name: '저커버그',
+    skills: ['Face','Book','Meta']
+}
+
+const people2:Person[] = [person, expert2];
+
+type Color = 'red'|'orange'|'yellow';
+const color2 : Color = 'red';
+const colors: Color[] = ['red','yellow'];
