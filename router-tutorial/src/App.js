@@ -26,11 +26,18 @@ function App() {
         <Route path=':num' element={<BoardContent />} />
       </Route>
 
+      <div>
+        <h1>HTTP 401</h1>
+        <h2>{pathname} - 이 페이지는 존재하지 않습니다. </h2>
+      </div>
+
       {/*<Route path='/profiles' element={<Profiles />} >
         <Route path=':username' element={<User />} />
       </Route>*/}
 
-      <Route path='/profiles/*' element={<Profiles />} />
+      <Route path='/profiles/*' element={<Profiles />} 
+      
+      />
 
     </Routes>
   </>
