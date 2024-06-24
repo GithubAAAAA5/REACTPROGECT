@@ -14,6 +14,7 @@ function MyForm({onSubmit} :MyFormProps) {
 
     const {name, description} = form;
     
+    // React.ChangeEvent<HTMLInputElement>
     const onChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         // e값은 무엇이들어갈지 모르기 때문에 any....
         //const onChange = (e:any) => {

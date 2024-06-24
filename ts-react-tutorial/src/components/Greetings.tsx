@@ -3,9 +3,10 @@ import React from "react";
 type GreetingsProps = {
     name: string;
     mark?: string;
-    optional?: string;
-    onClick: (name: string) => void;    
+    optional?: string;     
+    onClick: (name: string) => void;    // 옵셔널 체이닝
     // 매개변수 name(문자열)을 받고, 반환값이 없다.
+     // ! : non-null Assertion( 논 널 어서션 )
 };
 
 /*

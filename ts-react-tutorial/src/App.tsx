@@ -7,6 +7,8 @@ import Counter from './components/Counter';
 import MyForm from './components/Myform';
 import CounterReducer from './components/CounterReducer';
 import ReducerSample from './components/ReducerSample';
+import { SampleProvider } from './SampleContext';
+import ReducerSample2 from './components/ReucerSample2';
 
 
 function App() {
@@ -20,7 +22,7 @@ function App() {
 
   return (
     <div className="App">
-      <Greetings name="tim"  onClick={onClick}/>
+      {/* <Greetings name="tim"  onClick={onClick}/>
       <hr />
       <Counter />
       <hr />
@@ -28,7 +30,10 @@ function App() {
       <hr />
       <CounterReducer />
       <hr />
-      <ReducerSample />
+      <ReducerSample /> */}
+      <SampleProvider>
+        <ReducerSample2 />
+      </SampleProvider>
     </div>
   );
 }
