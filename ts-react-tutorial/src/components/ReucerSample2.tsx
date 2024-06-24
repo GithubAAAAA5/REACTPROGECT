@@ -26,6 +26,7 @@ function ReducerSample2() {
         <p>
             <code>isGood : </code> {state.isGood ? 'true':'false'}
         </p>
+        
         <div>
             <button onClick={setCount}>SET_COUNT</button>
             <button onClick={setText}>SET_TEXT</button>
